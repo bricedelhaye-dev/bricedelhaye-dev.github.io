@@ -32,13 +32,20 @@ const presenceButton = document.getElementById('presenceButton');
 const gameButton = document.getElementById('gameButton');
 const statusTitle = document.getElementById('statusTitle');
 const statusText = document.getElementById('statusText');
+const announcementCard = document.getElementById('announcementCard');
+const announcementBadge = document.getElementById('announcementBadge');
+const announcementMessage = document.getElementById('announcementMessage');
+const announcementMeta = document.getElementById('announcementMeta');
 const dialog = document.getElementById('messageDialog');
 const dialogText = document.getElementById('dialogText');
 
 let currentUser = null;
 let myPresence = null;
+let currentAnnouncement = null;
 let unsubscribePresence = null;
 let unsubscribeMine = null;
+let unsubscribeAnnouncement = null;
+let anonymousSignInInProgress = false;
 
 const style = document.createElement('style');
 style.textContent = `
@@ -52,6 +59,38 @@ style.textContent = `
     background: #2f8f65;
     box-shadow: 0 0 0 7px rgba(47,143,101,.14);
   }
+  .announcement-card {
+    margin-bottom: 18px;
+    padding: 24px 26px;
+    border: 1px solid rgba(168,95,50,.28);
+    border-left: 6px solid var(--copper);
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(168,95,50,.10), rgba(255,255,255,.92));
+    box-shadow: 0 10px 30px rgba(45,32,24,.07);
+  }
+  .announcement-card[data-type="present"] {
+    border-color: rgba(84,117,111,.34);
+    border-left-color: var(--river);
+    background: linear-gradient(135deg, rgba(84,117,111,.13), rgba(255,255,255,.94));
+  }
+  .announcement-card[data-type="cancelled"] {
+    border-color: rgba(139,58,47,.30);
+    border-left-color: #8b3a2f;
+    background: linear-gradient(135deg, rgba(139,58,47,.10), rgba(255,255,255,.94));
+  }
+  .announcement-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--copper);
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+  .announcement-card[data-type="present"] .announcement-badge { color: var(--river); }
+  .announcement-card[data-type="cancelled"] .announcement-badge { color: #8b3a2f; }
+  .announcement-message { margin: 0; font-size: 1.22rem; line-height: 1.45; font-weight: 850; }
+  .announcement-meta { margin: 8px 0 0; color: var(--muted); font-size: .88rem; }
 `;
 document.head.appendChild(style);
 
@@ -129,6 +168,46 @@ function renderPublicStatus(rawData) {
   }
 }
 
+function formatTime(timestamp) {
+  return new Intl.DateTimeFormat('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(new Date(timestamp)).replace(':', ' h ');
+}
+
+function renderAnnouncement(value) {
+  currentAnnouncement = value || null;
+  const active = Boolean(
+    currentAnnouncement &&
+    Number(currentAnnouncement.expiresAt) > Date.now() &&
+    typeof currentAnnouncement.message === 'string'
+  );
+
+  if (!announcementCard) return;
+  if (!active) {
+    announcementCard.hidden = true;
+    return;
+  }
+
+  const labels = {
+    planned: 'Rendez-vous annoncé',
+    present: 'Sur place maintenant',
+    cancelled: 'Information importante'
+  };
+
+  const type = ['planned', 'present', 'cancelled'].includes(currentAnnouncement.type)
+    ? currentAnnouncement.type
+    : 'planned';
+
+  announcementCard.dataset.type = type;
+  announcementBadge.textContent = labels[type];
+  announcementMessage.textContent = currentAnnouncement.message;
+  announcementMeta.textContent = Number.isFinite(Number(currentAnnouncement.updatedAt))
+    ? `Mise à jour à ${formatTime(Number(currentAnnouncement.updatedAt))}`
+    : 'Annonce actualisée récemment';
+  announcementCard.hidden = false;
+}
+
 async function writeMyPresence(hasGame) {
   if (!currentUser) throw new Error('Connexion au compteur indisponible.');
   const now = Date.now();
@@ -175,15 +254,17 @@ async function handleGameClick() {
   }
 }
 
-presenceButton?.addEventListener('click', handlePresenceClick);
-gameButton?.addEventListener('click', handleGameClick);
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) return;
-  currentUser = user;
-
+function stopListeners() {
   if (unsubscribePresence) unsubscribePresence();
   if (unsubscribeMine) unsubscribeMine();
+  if (unsubscribeAnnouncement) unsubscribeAnnouncement();
+  unsubscribePresence = null;
+  unsubscribeMine = null;
+  unsubscribeAnnouncement = null;
+}
+
+function startListeners(user) {
+  stopListeners();
 
   unsubscribePresence = onValue(
     ref(database, 'presence'),
@@ -200,20 +281,51 @@ onAuthStateChanged(auth, async (user) => {
     updateMyButtons();
   });
 
-  setBusy(false);
-});
+  unsubscribeAnnouncement = onValue(
+    ref(database, 'announcement'),
+    (snapshot) => renderAnnouncement(snapshot.val()),
+    (error) => {
+      console.error(error);
+      renderAnnouncement(null);
+    }
+  );
+}
+
+presenceButton?.addEventListener('click', handlePresenceClick);
+gameButton?.addEventListener('click', handleGameClick);
 
 setBusy(true);
 statusTitle.textContent = 'Connexion au compteur…';
 statusText.textContent = 'Quelques secondes peuvent être nécessaires lors de la première ouverture.';
 
-signInAnonymously(auth).catch((error) => {
-  console.error(error);
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    currentUser = null;
+    myPresence = null;
+    stopListeners();
+    updateMyButtons();
+
+    if (anonymousSignInInProgress) return;
+    anonymousSignInInProgress = true;
+    try {
+      await signInAnonymously(auth);
+    } catch (error) {
+      console.error(error);
+      setBusy(false);
+      statusTitle.textContent = 'Compteur momentanément indisponible';
+      statusText.textContent = 'Le site reste utilisable, mais les signalements ne peuvent pas être chargés.';
+    } finally {
+      anonymousSignInInProgress = false;
+    }
+    return;
+  }
+
+  currentUser = user;
+  startListeners(user);
   setBusy(false);
-  statusTitle.textContent = 'Compteur momentanément indisponible';
-  statusText.textContent = 'Le site reste utilisable, mais les signalements ne peuvent pas être chargés.';
 });
 
 setInterval(() => {
   updateMyButtons();
+  renderAnnouncement(currentAnnouncement);
 }, 60_000);
