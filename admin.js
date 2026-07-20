@@ -1,287 +1,38 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js';
 import {
-  browserLocalPersistence,
-  getAuth,
-  getRedirectResult,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  setPersistence,
-  signInWithPopup,
-  signInWithRedirect,
-  signOut
+  browserLocalPersistence, getAuth, getRedirectResult, GoogleAuthProvider,
+  onAuthStateChanged, setPersistence, signInWithPopup, signInWithRedirect, signOut
 } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js';
-import {
-  getDatabase,
-  onValue,
-  ref,
-  remove,
-  set
-} from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js';
+import { getDatabase, onValue, ref, remove, set } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDI7PBoU_zCIyBq1YtsBSywRYs5ByUPmLw',
-  authDomain: 'le-quai-joue.firebaseapp.com',
-  databaseURL: 'https://le-quai-joue-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'le-quai-joue',
-  storageBucket: 'le-quai-joue.firebasestorage.app',
-  messagingSenderId: '623424877513',
-  appId: '1:623424877513:web:4f6753430f929658a66e18'
+  apiKey:'AIzaSyDI7PBoU_zCIyBq1YtsBSywRYs5ByUPmLw', authDomain:'le-quai-joue.firebaseapp.com',
+  databaseURL:'https://le-quai-joue-default-rtdb.europe-west1.firebasedatabase.app', projectId:'le-quai-joue',
+  storageBucket:'le-quai-joue.firebasestorage.app', messagingSenderId:'623424877513',
+  appId:'1:623424877513:web:4f6753430f929658a66e18'
 };
-
-const ADMIN_EMAIL = 'brice.grisly@gmail.com';
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const database = getDatabase(app);
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-
-const loginPanel = document.getElementById('loginPanel');
-const adminPanel = document.getElementById('adminPanel');
-const unauthorizedPanel = document.getElementById('unauthorizedPanel');
-const loginButton = document.getElementById('loginButton');
-const logoutButton = document.getElementById('logoutButton');
-const unauthorizedLogoutButton = document.getElementById('unauthorizedLogoutButton');
-const accountText = document.getElementById('accountText');
-const unauthorizedEmail = document.getElementById('unauthorizedEmail');
-const form = document.getElementById('announcementForm');
-const typeInput = document.getElementById('announcementType');
-const messageInput = document.getElementById('announcementMessage');
-const durationInput = document.getElementById('announcementDuration');
-const publishButton = document.getElementById('publishButton');
-const removeButton = document.getElementById('removeButton');
-const feedback = document.getElementById('feedback');
-const currentCard = document.getElementById('currentCard');
-const currentBadge = document.getElementById('currentBadge');
-const currentMessage = document.getElementById('currentMessage');
-const currentMeta = document.getElementById('currentMeta');
-
-let currentUser = null;
-let currentAnnouncement = null;
-let unsubscribeAnnouncement = null;
-let hasActiveAnnouncement = false;
-
-function isAdmin(user) {
-  return Boolean(
-    user &&
-    user.emailVerified === true &&
-    String(user.email || '').toLowerCase() === ADMIN_EMAIL
-  );
-}
-
-function setFeedback(message, kind = 'info') {
-  feedback.textContent = message;
-  feedback.dataset.kind = kind;
-  feedback.hidden = !message;
-}
-
-function setBusy(isBusy) {
-  loginButton.disabled = isBusy;
-  publishButton.disabled = isBusy;
-  removeButton.disabled = isBusy || !hasActiveAnnouncement;
-  logoutButton.disabled = isBusy;
-  unauthorizedLogoutButton.disabled = isBusy;
-}
-
-function formatDate(timestamp) {
-  return new Intl.DateTimeFormat('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(new Date(timestamp));
-}
-
-function renderCurrent(value) {
-  currentAnnouncement = value || null;
-  const active = Boolean(
-    currentAnnouncement &&
-    Number(currentAnnouncement.expiresAt) > Date.now() &&
-    typeof currentAnnouncement.message === 'string'
-  );
-
-  hasActiveAnnouncement = active;
-  removeButton.disabled = !active;
-
-  if (!active) {
-    currentCard.hidden = true;
-    return;
-  }
-
-  const labels = {
-    planned: 'Rendez-vous annoncé',
-    present: 'Sur place maintenant',
-    cancelled: 'Information importante'
-  };
-  const type = ['planned', 'present', 'cancelled'].includes(currentAnnouncement.type)
-    ? currentAnnouncement.type
-    : 'planned';
-
-  currentCard.dataset.type = type;
-  currentBadge.textContent = labels[type];
-  currentMessage.textContent = currentAnnouncement.message;
-  currentMeta.textContent = `Visible jusqu’au ${formatDate(Number(currentAnnouncement.expiresAt))}`;
-  currentCard.hidden = false;
-}
-
-function showPanel(name, user = null) {
-  loginPanel.hidden = name !== 'login';
-  adminPanel.hidden = name !== 'admin';
-  unauthorizedPanel.hidden = name !== 'unauthorized';
-
-  if (name === 'admin' && user) {
-    accountText.textContent = `Connecté avec ${user.email}`;
-  }
-  if (name === 'unauthorized' && user) {
-    unauthorizedEmail.textContent = user.email || 'ce compte';
-  }
-}
-
-function startAnnouncementListener() {
-  if (unsubscribeAnnouncement) unsubscribeAnnouncement();
-  unsubscribeAnnouncement = onValue(
-    ref(database, 'announcement'),
-    (snapshot) => renderCurrent(snapshot.val()),
-    (error) => {
-      console.error(error);
-      setFeedback('Impossible de lire l’annonce actuelle. Vérifie la connexion.', 'error');
-    }
-  );
-}
-
-async function login() {
-  setBusy(true);
-  setFeedback('Ouverture de la connexion Google…');
-  try {
-    await setPersistence(auth, browserLocalPersistence);
-    await signInWithPopup(auth, provider);
-  } catch (error) {
-    console.error(error);
-    if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(error.code)) {
-      await signInWithRedirect(auth, provider);
-      return;
-    }
-    if (error.code === 'auth/popup-closed-by-user') {
-      setFeedback('Connexion annulée.');
-    } else {
-      setFeedback('La connexion Google a échoué. Réessaie dans quelques instants.', 'error');
-    }
-  } finally {
-    setBusy(false);
-  }
-}
-
-async function logout() {
-  setBusy(true);
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error(error);
-    setFeedback('La déconnexion a échoué.', 'error');
-  } finally {
-    setBusy(false);
-  }
-}
-
-async function publishAnnouncement(event) {
-  event.preventDefault();
-  if (!isAdmin(currentUser)) {
-    setFeedback('Ce compte n’est pas autorisé à publier.', 'error');
-    return;
-  }
-
-  const message = messageInput.value.trim();
-  const durationHours = Number(durationInput.value);
-  if (!message) {
-    setFeedback('Écris le message à afficher sur le site.', 'error');
-    messageInput.focus();
-    return;
-  }
-  if (message.length > 180) {
-    setFeedback('Le message doit rester inférieur à 180 caractères.', 'error');
-    messageInput.focus();
-    return;
-  }
-  if (![2, 6, 12, 24].includes(durationHours)) {
-    setFeedback('Choisis une durée valide.', 'error');
-    return;
-  }
-
-  setBusy(true);
-  setFeedback('Publication en cours…');
-  try {
-    const now = Date.now();
-    await set(ref(database, 'announcement'), {
-      type: typeInput.value,
-      message,
-      updatedAt: now,
-      expiresAt: now + durationHours * 60 * 60 * 1000
-    });
-    setFeedback('L’annonce est publiée sur le site.', 'success');
-  } catch (error) {
-    console.error(error);
-    setFeedback('Publication refusée. Vérifie que tu utilises bien le compte autorisé.', 'error');
-  } finally {
-    setBusy(false);
-  }
-}
-
-async function removeAnnouncement() {
-  if (!isAdmin(currentUser)) return;
-  const confirmed = window.confirm('Retirer immédiatement l’annonce du site ?');
-  if (!confirmed) return;
-
-  setBusy(true);
-  setFeedback('Retrait en cours…');
-  try {
-    await remove(ref(database, 'announcement'));
-    setFeedback('L’annonce a été retirée du site.', 'success');
-  } catch (error) {
-    console.error(error);
-    setFeedback('Impossible de retirer l’annonce.', 'error');
-  } finally {
-    setBusy(false);
-  }
-}
-
-loginButton.addEventListener('click', login);
-logoutButton.addEventListener('click', logout);
-unauthorizedLogoutButton.addEventListener('click', logout);
-form.addEventListener('submit', publishAnnouncement);
-removeButton.addEventListener('click', removeAnnouncement);
-
-setBusy(true);
-showPanel('login');
-setFeedback('Vérification de la connexion…');
-
-setPersistence(auth, browserLocalPersistence)
-  .then(() => getRedirectResult(auth))
-  .catch((error) => {
-    console.error(error);
-    setFeedback('Le retour de la connexion Google a échoué.', 'error');
-  });
-
-onAuthStateChanged(auth, (user) => {
-  currentUser = user;
-  setBusy(false);
-
-  if (!user || user.isAnonymous) {
-    if (unsubscribeAnnouncement) unsubscribeAnnouncement();
-    unsubscribeAnnouncement = null;
-    showPanel('login');
-    setFeedback('Connecte-toi avec le compte Google autorisé.');
-    return;
-  }
-
-  if (!isAdmin(user)) {
-    if (unsubscribeAnnouncement) unsubscribeAnnouncement();
-    unsubscribeAnnouncement = null;
-    showPanel('unauthorized', user);
-    setFeedback('');
-    return;
-  }
-
-  showPanel('admin', user);
-  setFeedback('');
-  startAnnouncementListener();
-});
+const ADMIN_EMAIL='brice.grisly@gmail.com';
+const app=initializeApp(firebaseConfig), auth=getAuth(app), database=getDatabase(app), provider=new GoogleAuthProvider();
+provider.setCustomParameters({prompt:'select_account'});
+const $=(id)=>document.getElementById(id);
+const loginPanel=$('loginPanel'),adminPanel=$('adminPanel'),unauthorizedPanel=$('unauthorizedPanel'),loginButton=$('loginButton'),logoutButton=$('logoutButton'),unauthorizedLogoutButton=$('unauthorizedLogoutButton'),accountText=$('accountText'),unauthorizedEmail=$('unauthorizedEmail'),form=$('announcementForm'),typeInput=$('announcementType'),messageInput=$('announcementMessage'),eventAtInput=$('eventAt'),eventFields=$('eventFields'),durationInput=$('announcementDuration'),infoDurationField=$('infoDurationField'),publishButton=$('publishButton'),removeButton=$('removeButton'),feedback=$('feedback'),currentCard=$('currentCard'),currentBadge=$('currentBadge'),currentMessage=$('currentMessage'),currentMeta=$('currentMeta'),responses=$('responses');
+let currentUser=null,currentAnnouncement=null,unsubscribeAnnouncement=null,unsubscribeIntentions=null,hasActiveAnnouncement=false;
+function isAdmin(user){return Boolean(user&&user.emailVerified===true&&String(user.email||'').toLowerCase()===ADMIN_EMAIL)}
+function setFeedback(message,kind='info'){feedback.textContent=message;feedback.dataset.kind=kind;feedback.hidden=!message}
+function setBusy(value){[loginButton,publishButton,logoutButton,unauthorizedLogoutButton].forEach(b=>b.disabled=value);removeButton.disabled=value||!hasActiveAnnouncement}
+function formatDate(timestamp){return new Intl.DateTimeFormat('fr-FR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}).format(new Date(timestamp))}
+function toLocalInput(timestamp){const d=new Date(timestamp),pad=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`}
+function eventKey(value){const n=Number(value?.eventAt);return Number.isFinite(n)?String(Math.trunc(n)):null}
+function active(value){return Boolean(value&&Number(value.expiresAt)>Date.now()&&typeof value.message==='string')}
+function renderResponses(value){const entries=Object.values(value||{}).filter(entry=>entry&&entry.attending===true&&Number(entry.expiresAt)>Date.now());const games=entries.filter(entry=>entry.hasGame===true).length;responses.hidden=false;responses.textContent=entries.length===0?'Aucune réponse pour le moment.':`${entries.length} venue${entries.length>1?'s':''} indiquée${entries.length>1?'s':''}, dont ${games} avec un jeu.`}
+function stopIntentions(){if(unsubscribeIntentions)unsubscribeIntentions();unsubscribeIntentions=null;responses.hidden=true}
+function startIntentions(){stopIntentions();const key=eventKey(currentAnnouncement);if(!key)return;unsubscribeIntentions=onValue(ref(database,`intentions/${key}`),snapshot=>renderResponses(snapshot.val()),error=>{console.error(error);responses.hidden=true})}
+function renderCurrent(value){currentAnnouncement=active(value)?value:null;hasActiveAnnouncement=Boolean(currentAnnouncement);removeButton.disabled=!hasActiveAnnouncement;if(!currentAnnouncement){currentCard.hidden=true;stopIntentions();return}const type=['planned','maintained','present','info','cancelled'].includes(currentAnnouncement.type)?currentAnnouncement.type:'planned';const labels={planned:'Rencontre proposée',maintained:'Rendez-vous maintenu',present:'Sur place maintenant',info:'Information importante',cancelled:'Information importante'};currentCard.dataset.type=type;currentBadge.textContent=labels[type];currentMessage.textContent=currentAnnouncement.message;const eventText=Number.isFinite(Number(currentAnnouncement.eventAt))?` · rendez-vous ${formatDate(Number(currentAnnouncement.eventAt))}`:'';currentMeta.textContent=`Visible jusqu’au ${formatDate(Number(currentAnnouncement.expiresAt))}${eventText}`;currentCard.hidden=false;if(['planned','maintained'].includes(type)&&eventKey(currentAnnouncement))startIntentions();else stopIntentions();if(Number.isFinite(Number(currentAnnouncement.eventAt)))eventAtInput.value=toLocalInput(Number(currentAnnouncement.eventAt))}
+function showPanel(name,user=null){loginPanel.hidden=name!=='login';adminPanel.hidden=name!=='admin';unauthorizedPanel.hidden=name!=='unauthorized';if(name==='admin'&&user)accountText.textContent=`Connecté avec ${user.email}`;if(name==='unauthorized'&&user)unauthorizedEmail.textContent=user.email||'ce compte'}
+function updateTypeFields(){const info=typeInput.value==='info';eventFields.hidden=info;infoDurationField.hidden=!info;eventAtInput.required=!info;messageInput.placeholder=info?'Exemple : La météo est incertaine. Vérifiez cette rubrique avant de partir.':typeInput.value==='maintained'?'Exemple : Le rendez-vous de 18 h tient toujours. Un jeu est prévu.':'Exemple : Des parties sont proposées dimanche vers 18 h sur les galets.'}
+function startAnnouncementListener(){if(unsubscribeAnnouncement)unsubscribeAnnouncement();unsubscribeAnnouncement=onValue(ref(database,'announcement'),snapshot=>renderCurrent(snapshot.val()),error=>{console.error(error);setFeedback('Impossible de lire l’information actuelle. Vérifiez la connexion.','error')})}
+async function login(){setBusy(true);setFeedback('Ouverture de la connexion Google…');try{await setPersistence(auth,browserLocalPersistence);await signInWithPopup(auth,provider)}catch(error){console.error(error);if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(error.code)){await signInWithRedirect(auth,provider);return}setFeedback(error.code==='auth/popup-closed-by-user'?'Connexion annulée.':'La connexion Google a échoué. Réessayez.','error')}finally{setBusy(false)}}
+async function logout(){setBusy(true);try{await signOut(auth)}catch(error){console.error(error);setFeedback('La déconnexion a échoué.','error')}finally{setBusy(false)}}
+async function publishAnnouncement(event){event.preventDefault();if(!isAdmin(currentUser)){setFeedback('Ce compte n’est pas autorisé à publier.','error');return}const type=typeInput.value,message=messageInput.value.trim();if(!message){setFeedback('Écrivez le message à afficher.','error');messageInput.focus();return}if(message.length>180){setFeedback('Le message doit rester inférieur à 180 caractères.','error');return}const now=Date.now();let eventAt=null,expiresAt=null;if(type==='info'){const hours=Number(durationInput.value);if(![2,6,12,24].includes(hours)){setFeedback('Choisissez une durée valide.','error');return}expiresAt=now+hours*60*60*1000}else{eventAt=new Date(eventAtInput.value).getTime();if(!Number.isFinite(eventAt)||eventAt<now-60*60*1000){setFeedback('Choisissez la date et l’heure du rendez-vous.','error');eventAtInput.focus();return}if(eventAt>now+30*24*60*60*1000){setFeedback('Le rendez-vous doit être prévu dans les trente prochains jours.','error');return}expiresAt=eventAt+8*60*60*1000}setBusy(true);setFeedback('Publication en cours…');try{const payload={type,message,updatedAt:now,expiresAt};if(eventAt!==null)payload.eventAt=eventAt;await set(ref(database,'announcement'),payload);setFeedback('L’information est publiée sur le site.','success')}catch(error){console.error(error);setFeedback('Publication refusée. Vérifiez le compte utilisé et les règles Firebase.','error')}finally{setBusy(false)}}
+async function removeAnnouncement(){if(!isAdmin(currentUser))return;if(!window.confirm('Retirer immédiatement cette information du site ?'))return;setBusy(true);try{await remove(ref(database,'announcement'));setFeedback('L’information a été retirée.','success')}catch(error){console.error(error);setFeedback('Impossible de retirer l’information.','error')}finally{setBusy(false)}}
+loginButton.addEventListener('click',login);logoutButton.addEventListener('click',logout);unauthorizedLogoutButton.addEventListener('click',logout);form.addEventListener('submit',publishAnnouncement);removeButton.addEventListener('click',removeAnnouncement);typeInput.addEventListener('change',updateTypeFields);updateTypeFields();setBusy(true);showPanel('login');setFeedback('Vérification de la connexion…');setPersistence(auth,browserLocalPersistence).then(()=>getRedirectResult(auth)).catch(error=>{console.error(error);setFeedback('Le retour de la connexion Google a échoué.','error')});onAuthStateChanged(auth,user=>{currentUser=user;setBusy(false);if(!user||user.isAnonymous){if(unsubscribeAnnouncement)unsubscribeAnnouncement();stopIntentions();showPanel('login');setFeedback('Connectez-vous avec le compte Google autorisé.');return}if(!isAdmin(user)){if(unsubscribeAnnouncement)unsubscribeAnnouncement();stopIntentions();showPanel('unauthorized',user);setFeedback('');return}showPanel('admin',user);setFeedback('');startAnnouncementListener()});

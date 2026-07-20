@@ -7,158 +7,72 @@
   <meta name="theme-color" content="#2d2018">
   <title>Administration — Le Quai joue</title>
   <style>
-    :root {
-      --ink: #2d2018;
-      --paper: #f5efe7;
-      --cream: #fffaf3;
-      --copper: #a85f32;
-      --river: #54756f;
-      --muted: #766b63;
-      --danger: #8b3a2f;
-      --line: rgba(45,32,24,.16);
-      --shadow: 0 20px 55px rgba(45,32,24,.14);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--ink);
-      background: radial-gradient(circle at 88% 8%, rgba(168,95,50,.14), transparent 30%), var(--paper);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.55;
-    }
-    button, input, select, textarea { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-    .shell { width: min(720px, calc(100% - 28px)); margin: 0 auto; }
-    header { padding: 22px 0 12px; }
-    .brand { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
-    .brand-title { display: flex; align-items: center; gap: 11px; font-weight: 900; }
-    .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: white; background: var(--ink); font-size: 23px; }
-    .back { color: var(--ink); font-weight: 800; text-decoration: none; }
-    main { padding: 28px 0 70px; }
-    h1 { margin: 0 0 10px; font-size: clamp(2.25rem, 9vw, 4.2rem); line-height: .98; letter-spacing: -.045em; }
-    .intro { margin: 0 0 28px; color: var(--muted); font-size: 1.06rem; }
-    .panel { padding: 24px; border: 1px solid var(--line); border-radius: 26px; background: rgba(255,250,243,.94); box-shadow: var(--shadow); }
-    .panel + .panel { margin-top: 18px; }
-    .panel h2 { margin: 0 0 8px; font-size: 1.45rem; }
-    .panel p { margin-top: 0; }
-    .button-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-    button, .button-link {
-      min-height: 50px;
-      padding: 0 20px;
-      border: 1px solid var(--ink);
-      border-radius: 999px;
-      background: white;
-      color: var(--ink);
-      font-weight: 850;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    button.primary { color: white; background: var(--ink); }
-    button.danger { color: var(--danger); border-color: rgba(139,58,47,.5); }
-    button:disabled { opacity: .48; cursor: wait; }
-    .account { margin: 0 0 18px; color: var(--river); font-size: .92rem; font-weight: 800; }
-    label { display: block; margin: 18px 0 7px; font-weight: 850; }
-    input, select, textarea {
-      width: 100%;
-      padding: 14px 15px;
-      color: var(--ink);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: white;
-    }
-    textarea { min-height: 128px; resize: vertical; }
-    .hint { margin: 7px 0 0; color: var(--muted); font-size: .87rem; }
-    .feedback { margin: 0 0 18px; padding: 12px 14px; border-radius: 14px; background: rgba(84,117,111,.12); color: var(--ink); font-weight: 750; }
-    .feedback[data-kind="error"] { background: rgba(139,58,47,.12); color: var(--danger); }
-    .feedback[data-kind="success"] { background: rgba(47,143,101,.14); color: #246e4f; }
-    .current-card { margin-bottom: 20px; padding: 18px; border-left: 5px solid var(--copper); border-radius: 16px; background: white; }
-    .current-card[data-type="present"] { border-left-color: var(--river); }
-    .current-card[data-type="cancelled"] { border-left-color: var(--danger); }
-    .current-badge { display: block; margin-bottom: 5px; color: var(--copper); font-size: .75rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
-    .current-card[data-type="present"] .current-badge { color: var(--river); }
-    .current-card[data-type="cancelled"] .current-badge { color: var(--danger); }
-    .current-message { margin: 0 0 5px; font-weight: 850; font-size: 1.08rem; }
-    .current-meta { margin: 0; color: var(--muted); font-size: .85rem; }
-    .warning { padding: 14px; border-radius: 14px; background: rgba(139,58,47,.10); }
-    [hidden] { display: none !important; }
-    @media (max-width: 520px) {
-      .panel { padding: 20px; border-radius: 22px; }
-      .button-row button, .button-row .button-link { width: 100%; }
-    }
+    :root { --ink:#2d2018; --paper:#f5efe7; --cream:#fffaf3; --copper:#a85f32; --river:#54756f; --muted:#766b63; --danger:#8b3a2f; --line:rgba(45,32,24,.16); --shadow:0 20px 55px rgba(45,32,24,.14); }
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;color:var(--ink);background:radial-gradient(circle at 88% 8%,rgba(168,95,50,.14),transparent 30%),var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+    button,input,select,textarea{font:inherit} button{-webkit-tap-highlight-color:transparent}.shell{width:min(720px,calc(100% - 28px));margin:0 auto}header{padding:22px 0 12px}.brand{display:flex;align-items:center;justify-content:space-between;gap:18px}.brand-title{display:flex;align-items:center;gap:11px;font-weight:900}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;color:white;background:var(--ink);font-size:23px}.back{color:var(--ink);font-weight:800;text-decoration:none}main{padding:28px 0 70px}h1{margin:0 0 10px;font-size:clamp(2.25rem,9vw,4.2rem);line-height:.98;letter-spacing:-.045em}.intro{margin:0 0 28px;color:var(--muted);font-size:1.06rem}.panel{padding:24px;border:1px solid var(--line);border-radius:26px;background:rgba(255,250,243,.94);box-shadow:var(--shadow)}.panel+.panel{margin-top:18px}.panel h2{margin:0 0 8px;font-size:1.45rem}.panel p{margin-top:0}.button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}button,.button-link{min-height:50px;padding:0 20px;border:1px solid var(--ink);border-radius:999px;background:white;color:var(--ink);font-weight:850;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}button.primary{color:white;background:var(--ink)}button.danger{color:var(--danger);border-color:rgba(139,58,47,.5)}button:disabled{opacity:.48;cursor:wait}.account{margin:0 0 18px;color:var(--river);font-size:.92rem;font-weight:800}label{display:block;margin:18px 0 7px;font-weight:850}input,select,textarea{width:100%;padding:14px 15px;color:var(--ink);border:1px solid var(--line);border-radius:14px;background:white}textarea{min-height:128px;resize:vertical}.hint{margin:7px 0 0;color:var(--muted);font-size:.87rem}.feedback{margin:0 0 18px;padding:12px 14px;border-radius:14px;background:rgba(84,117,111,.12);color:var(--ink);font-weight:750}.feedback[data-kind="error"]{background:rgba(139,58,47,.12);color:var(--danger)}.feedback[data-kind="success"]{background:rgba(47,143,101,.14);color:#246e4f}.current-card{margin-bottom:20px;padding:18px;border-left:5px solid var(--copper);border-radius:16px;background:white}.current-card[data-type="maintained"]{border-left-color:var(--river)}.current-card[data-type="info"]{border-left-color:var(--danger)}.current-badge{display:block;margin-bottom:5px;color:var(--copper);font-size:.75rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.current-message{margin:0 0 5px;font-weight:850;font-size:1.08rem}.current-meta,.responses{margin:0;color:var(--muted);font-size:.85rem}.responses{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-weight:800;color:var(--river)}.warning{padding:14px;border-radius:14px;background:rgba(139,58,47,.10)}[hidden]{display:none!important}@media(max-width:520px){.panel{padding:20px;border-radius:22px}.button-row button,.button-row .button-link{width:100%}}
   </style>
 </head>
 <body>
-  <header class="shell">
-    <div class="brand">
-      <div class="brand-title"><span class="brand-mark">♟</span><span>Le Quai joue</span></div>
-      <a class="back" href="index.html">Voir le site</a>
-    </div>
-  </header>
-
+  <header class="shell"><div class="brand"><div class="brand-title"><span class="brand-mark">♟</span><span>Le Quai joue</span></div><a class="back" href="index.html">Voir le site</a></div></header>
   <main class="shell">
     <h1>Administration</h1>
-    <p class="intro">Publier une information visible immédiatement dans la rubrique « Le statut du quai ».</p>
-
+    <p class="intro">Proposer un rendez-vous, confirmer qu’il tient toujours ou publier une information utile.</p>
     <p class="feedback" id="feedback" aria-live="polite"></p>
 
     <section class="panel" id="loginPanel">
       <h2>Connexion privée</h2>
-      <p>Utilise le compte Google autorisé pour accéder aux annonces.</p>
-      <div class="button-row">
-        <button class="primary" id="loginButton" type="button">Se connecter avec Google</button>
-      </div>
+      <p>Utilisez le compte Google autorisé pour accéder aux annonces.</p>
+      <div class="button-row"><button class="primary" id="loginButton" type="button">Se connecter avec Google</button></div>
     </section>
 
     <section class="panel" id="unauthorizedPanel" hidden>
       <h2>Compte non autorisé</h2>
       <p class="warning">Le compte <strong id="unauthorizedEmail"></strong> ne peut pas publier d’annonce.</p>
-      <div class="button-row">
-        <button id="unauthorizedLogoutButton" type="button">Changer de compte</button>
-      </div>
+      <div class="button-row"><button id="unauthorizedLogoutButton" type="button">Changer de compte</button></div>
     </section>
 
     <section class="panel" id="adminPanel" hidden>
       <p class="account" id="accountText"></p>
-
       <article class="current-card" id="currentCard" hidden>
         <span class="current-badge" id="currentBadge"></span>
         <p class="current-message" id="currentMessage"></p>
         <p class="current-meta" id="currentMeta"></p>
+        <p class="responses" id="responses" hidden></p>
       </article>
 
       <form id="announcementForm">
-        <label for="announcementType">Type d’annonce</label>
+        <label for="announcementType">Type d’information</label>
         <select id="announcementType" required>
-          <option value="planned">Je prévois de venir</option>
-          <option value="present">Je suis sur place maintenant</option>
-          <option value="cancelled">Annulation ou changement</option>
+          <option value="planned">Proposer une rencontre</option>
+          <option value="maintained">Confirmer que le rendez-vous tient toujours</option>
+          <option value="info">Publier une information importante</option>
         </select>
+
+        <div id="eventFields">
+          <label for="eventAt">Date et heure du rendez-vous</label>
+          <input id="eventAt" type="datetime-local">
+          <p class="hint">La même date permet de conserver les réponses lorsque le rendez-vous est confirmé.</p>
+        </div>
 
         <label for="announcementMessage">Message affiché</label>
-        <textarea id="announcementMessage" maxlength="180" required placeholder="Exemple : Je serai sur les galets aujourd’hui vers 18 h avec plusieurs jeux."></textarea>
-        <p class="hint">180 caractères maximum. Écris directement l’information utile aux joueurs.</p>
+        <textarea id="announcementMessage" maxlength="180" required placeholder="Exemple : Des parties sont proposées dimanche vers 18 h sur les galets."></textarea>
+        <p class="hint">180 caractères maximum. Écrivez directement l’information utile.</p>
 
-        <label for="announcementDuration">Durée d’affichage</label>
-        <select id="announcementDuration" required>
-          <option value="2">2 heures</option>
-          <option value="6">6 heures</option>
-          <option value="12" selected>12 heures</option>
-          <option value="24">24 heures</option>
-        </select>
+        <div id="infoDurationField" hidden>
+          <label for="announcementDuration">Durée d’affichage</label>
+          <select id="announcementDuration">
+            <option value="2">2 heures</option><option value="6">6 heures</option><option value="12" selected>12 heures</option><option value="24">24 heures</option>
+          </select>
+        </div>
 
         <div class="button-row">
-          <button class="primary" id="publishButton" type="submit">Publier l’annonce</button>
-          <button class="danger" id="removeButton" type="button" disabled>Retirer l’annonce</button>
+          <button class="primary" id="publishButton" type="submit">Publier</button>
+          <button class="danger" id="removeButton" type="button" disabled>Retirer l’information</button>
           <button id="logoutButton" type="button">Se déconnecter</button>
         </div>
       </form>
     </section>
   </main>
-
   <script type="module" src="admin.js"></script>
 </body>
 </html>

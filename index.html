@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#2d2018">
   <meta name="robots" content="index,follow,max-image-preview:large">
-  <meta name="description" content="Échecs gratuits au quai des Bateliers à Strasbourg : parties libres, sans inscription et ouvertes à tous les niveaux. Consultez les joueurs présents en temps réel.">
+  <meta name="description" content="Échecs libres et gratuits au quai des Bateliers à Strasbourg, sans inscription. Consultez les rendez-vous proposés, les présences et les jeux disponibles.">
   <link rel="canonical" href="https://bricedelhaye-dev.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icone-le-quai-joue.png">
@@ -23,12 +23,12 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Le Quai joue — Échecs libres à Strasbourg">
-  <meta name="twitter:description" content="Gratuit, sans inscription et ouvert à tous les niveaux au quai des Bateliers.">
+  <meta name="twitter:description" content="Échecs libres et gratuits, sans inscription, au quai des Bateliers.">
   <meta name="twitter:image" content="https://bricedelhaye-dev.github.io/partage-le-quai-joue.jpg">
 
   <title>Échecs gratuits au quai des Bateliers à Strasbourg | Le Quai joue</title>
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://bricedelhaye-dev.github.io/#website","url":"https://bricedelhaye-dev.github.io/","name":"Le Quai joue","description":"Parties d’échecs gratuites et ouvertes à tous au quai des Bateliers à Strasbourg.","inLanguage":"fr-FR"},{"@type":"Organization","@id":"https://bricedelhaye-dev.github.io/#organization","name":"Le Quai joue","url":"https://bricedelhaye-dev.github.io/","description":"Initiative citoyenne d’échecs libres au quai des Bateliers à Strasbourg.","areaServed":{"@type":"City","name":"Strasbourg"},"location":{"@type":"Place","name":"Quai des Bateliers — galets côté Ill","address":{"@type":"PostalAddress","streetAddress":"Quai des Bateliers","addressLocality":"Strasbourg","postalCode":"67000","addressCountry":"FR"}},"image":"https://bricedelhaye-dev.github.io/partage-le-quai-joue.jpg"},{"@type":"FAQPage","@id":"https://bricedelhaye-dev.github.io/#faq","mainEntity":[{"@type":"Question","name":"Faut-il savoir jouer aux échecs ?","acceptedAnswer":{"@type":"Answer","text":"Non. Les débutants comme les joueurs confirmés sont les bienvenus. Il est possible de regarder, de poser des questions ou de commencer une partie."}},{"@type":"Question","name":"Faut-il s’inscrire ?","acceptedAnswer":{"@type":"Answer","text":"Non. La participation est gratuite et sans inscription. Chacun passe et reste le temps qu’il souhaite."}},{"@type":"Question","name":"Quand venir au quai des Bateliers ?","acceptedAnswer":{"@type":"Answer","text":"Les parties apparaissent spontanément, surtout en fin d’après-midi. Le créneau est souvent agréable vers 17 h 30–18 h, selon la saison et la météo. Le compteur du site permet de voir les présences signalées."}},{"@type":"Question","name":"Faut-il apporter un échiquier ?","acceptedAnswer":{"@type":"Answer","text":"Quelques jeux peuvent déjà être présents. Apporter son propre échiquier est néanmoins utile, surtout quand plusieurs personnes souhaitent jouer."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://bricedelhaye-dev.github.io/#website","url":"https://bricedelhaye-dev.github.io/","name":"Le Quai joue","description":"Parties d’échecs libres et gratuites au quai des Bateliers à Strasbourg.","inLanguage":"fr-FR"},{"@type":"Organization","@id":"https://bricedelhaye-dev.github.io/#organization","name":"Le Quai joue","url":"https://bricedelhaye-dev.github.io/","description":"Initiative citoyenne d’échecs libres au quai des Bateliers à Strasbourg.","areaServed":{"@type":"City","name":"Strasbourg"},"location":{"@type":"Place","name":"Quai des Bateliers — galets côté Ill","address":{"@type":"PostalAddress","streetAddress":"Quai des Bateliers","addressLocality":"Strasbourg","postalCode":"67000","addressCountry":"FR"}},"image":"https://bricedelhaye-dev.github.io/partage-le-quai-joue.jpg"},{"@type":"FAQPage","@id":"https://bricedelhaye-dev.github.io/#faq","mainEntity":[{"@type":"Question","name":"Puis-je simplement regarder une partie ?","acceptedAnswer":{"@type":"Answer","text":"Bien sûr. Vous pouvez regarder, découvrir les échecs, poser une question ou vous installer pour jouer."}},{"@type":"Question","name":"Faut-il s’inscrire ?","acceptedAnswer":{"@type":"Answer","text":"Non. La participation est gratuite et sans inscription. Vous passez librement et restez le temps que vous souhaitez."}},{"@type":"Question","name":"Quand venir au quai des Bateliers ?","acceptedAnswer":{"@type":"Answer","text":"Les parties commencent souvent en fin d’après-midi, selon les jours et la météo. La rubrique Aujourd’hui au quai indique les rendez-vous proposés, les présences et les jeux disponibles."}},{"@type":"Question","name":"Faut-il apporter un échiquier ?","acceptedAnswer":{"@type":"Answer","text":"Ce n’est pas obligatoire, mais c’est toujours utile. La rubrique Aujourd’hui au quai indique si un jeu devrait être disponible et jusqu’à quelle heure environ."}}]}]}
   </script>
   <style>
 :root {
@@ -209,6 +209,116 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
 .footer-links a { color: rgba(255,255,255,.8); text-underline-offset: 3px; }
 @media (max-width: 820px) { .footer-links { justify-content: flex-start; } }
 
+
+
+/* Fonctionnement collectif : rendez-vous, présence, jeu et départ. */
+body.has-sticky { padding-bottom: 96px; }
+.button.soft { background: white; border-color: var(--line); }
+.button.danger { color: #8b3a2f; border-color: rgba(139,58,47,.45); background: white; }
+.announcement-card {
+  margin-bottom: 18px; padding: 26px; border: 1px solid rgba(168,95,50,.28);
+  border-left: 6px solid var(--copper); border-radius: 22px;
+  background: linear-gradient(135deg, rgba(168,95,50,.10), rgba(255,255,255,.94));
+  box-shadow: 0 10px 30px rgba(45,32,24,.07);
+}
+.announcement-card[data-type="maintained"], .announcement-card[data-type="present"] {
+  border-color: rgba(84,117,111,.34); border-left-color: var(--river);
+  background: linear-gradient(135deg, rgba(84,117,111,.13), rgba(255,255,255,.94));
+}
+.announcement-card[data-type="info"], .announcement-card[data-type="cancelled"] {
+  border-color: rgba(139,58,47,.28); border-left-color: #8b3a2f;
+  background: linear-gradient(135deg, rgba(139,58,47,.08), rgba(255,255,255,.94));
+}
+.announcement-badge {
+  display: inline-block; margin-bottom: 8px; color: var(--copper); font-size: .78rem;
+  font-weight: 900; letter-spacing: .11em; text-transform: uppercase;
+}
+.announcement-card[data-type="maintained"] .announcement-badge,
+.announcement-card[data-type="present"] .announcement-badge { color: var(--river); }
+.announcement-card[data-type="info"] .announcement-badge,
+.announcement-card[data-type="cancelled"] .announcement-badge { color: #8b3a2f; }
+.announcement-message { margin: 0; font-size: 1.22rem; line-height: 1.45; font-weight: 850; }
+.announcement-meta { margin: 8px 0 0; color: var(--muted); font-size: .88rem; }
+.planning-card { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.planning-card h3 { margin: 0 0 4px; }
+.planning-card p { margin: 0 0 14px; color: var(--muted); }
+.planning-actions, .game-left-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.planning-actions .button.is-active { background: var(--ink); color: white; border-color: var(--ink); }
+.planning-feedback { margin: 13px 0 0 !important; color: var(--river) !important; font-weight: 800; }
+.today-card {
+  padding: 30px; background: white; border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(45,32,24,.07);
+}
+.news-line { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; }
+.today-card .status-dot { margin-top: 8px; }
+.today-card[data-tone="live"] .status-dot {
+  background: #2f8f65; box-shadow: 0 0 0 7px rgba(47,143,101,.14);
+}
+.freshness { margin: 10px 0 0; color: var(--river); font-size: .86rem; font-weight: 800; }
+.current-actions-label { margin: 24px 0 0; font-weight: 850; }
+.presence-button.is-active {
+  border-color: var(--river); background: rgba(84,117,111,.10);
+  box-shadow: 0 8px 22px rgba(45,32,24,.08);
+}
+.presence-button:disabled { opacity: .55; cursor: wait; }
+.personal-card, .game-left-card {
+  margin-top: 18px; padding: 20px; border-radius: 20px;
+  background: rgba(84,117,111,.10); border: 1px solid rgba(84,117,111,.22);
+}
+.playing-control { min-height: 46px; }
+.active-reminder { margin: 14px 0 0; color: #554941; font-size: .92rem; }
+.game-left-card p { margin: 0 0 14px; color: #554941; }
+.time-dialog {
+  width: min(520px, calc(100% - 28px)); padding: 28px; border: 0; border-radius: 24px;
+  color: var(--ink); background: var(--cream); box-shadow: var(--shadow);
+}
+.time-dialog::backdrop { background: rgba(20,14,10,.55); backdrop-filter: blur(4px); }
+.dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.dialog-head h3 { margin: 0; font-size: 1.45rem; }
+.dialog-head .dialog-close { float: none; flex: 0 0 auto; }
+.dialog-copy { margin: 10px 0 18px; color: var(--muted); }
+.time-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.time-choice {
+  min-height: 50px; padding: 0 14px; border: 1px solid var(--line); border-radius: 14px;
+  background: white; color: var(--ink); font-weight: 850;
+}
+.custom-time { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 12px; }
+.custom-time input { min-height: 50px; padding: 0 14px; border: 1px solid var(--line); border-radius: 14px; background: white; }
+.dialog-actions { display: grid; gap: 10px; margin-top: 16px; }
+.dialog-actions button {
+  min-height: 52px; padding: 0 18px; border: 1px solid var(--ink); border-radius: 16px;
+  background: white; color: var(--ink); font-weight: 850; text-align: left;
+}
+.dialog-actions button.primary { background: var(--ink); color: white; }
+.sticky-presence {
+  position: fixed; z-index: 20; left: 0; right: 0; bottom: 0; padding: 12px 0;
+  background: rgba(255,250,243,.96); border-top: 1px solid var(--line); backdrop-filter: blur(14px);
+  box-shadow: 0 -12px 32px rgba(45,32,24,.10);
+}
+.sticky-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.sticky-copy strong, .sticky-copy small { display: block; }
+.sticky-copy small { color: var(--muted); }
+.sticky-actions { display: flex; gap: 9px; }
+.sticky-actions button {
+  min-height: 46px; padding: 0 17px; border-radius: 999px; font-weight: 850;
+  border: 1px solid var(--line); background: white; color: var(--ink);
+}
+.sticky-actions .leave { background: var(--ink); color: white; border-color: var(--ink); }
+.toast {
+  position: fixed; z-index: 40; left: 50%; bottom: 112px; transform: translateX(-50%);
+  width: min(480px, calc(100% - 28px)); padding: 14px 18px; border-radius: 16px;
+  background: var(--ink); color: white; box-shadow: var(--shadow); font-weight: 750; text-align: center;
+}
+@media (max-width: 560px) {
+  .today-card { padding: 22px; }
+  .time-grid, .custom-time { grid-template-columns: 1fr; }
+  .planning-actions .button, .game-left-actions .button { width: 100%; }
+  .sticky-inner { align-items: stretch; }
+  .sticky-copy { display: none; }
+  .sticky-actions { width: 100%; }
+  .sticky-actions button { flex: 1; }
+}
+
 </style>
 </head>
 <body>
@@ -223,14 +333,14 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
 
     <div class="hero-grid shell" id="top">
       <div class="hero-copy">
-        <p class="eyebrow">Strasbourg · Quai des Bateliers</p>
+        <p class="eyebrow">Échecs libres · Quai des Bateliers · Strasbourg</p>
         <h1>Un échiquier, deux personnes, et la partie commence.</h1>
         <p class="lead">
-          Des jeux sont posés sur les galets au bord de l’Ill.
-          Une place est libre&nbsp;? Asseyez-vous. C’est gratuit, sans inscription et ouvert à tous les niveaux.
+          Vous avez envie de jouer, de découvrir les échecs ou simplement de regarder une partie&nbsp;?
+          Arrêtez-vous. Gratuit, sans inscription.
         </p>
         <div class="actions">
-          <a class="button primary" href="#statut">Voir le statut</a>
+          <a class="button primary" href="#aujourdhui">Voir si ça joue</a>
           <a class="button secondary" href="#lieu">Trouver le lieu</a>
         </div>
         <p class="micro">Vous avez un jeu&nbsp;? Apportez-le lorsque c’est possible.</p>
@@ -243,41 +353,68 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
   </header>
 
   <main>
-    <section class="section shell" id="statut">
+    <section class="section shell" id="aujourdhui">
       <div class="section-heading">
-        <p class="eyebrow">Aujourd’hui</p>
-        <h2>Le statut du quai</h2>
+        <p class="eyebrow">Aujourd’hui au quai</p>
+        <h2>Est-ce que ça joue&nbsp;?</h2>
+        <p class="lead">Regardez avant de partir. Une fois sur place, indiquez votre présence pour que d’autres puissent vous rejoindre.</p>
       </div>
 
       <article class="announcement-card" id="announcementCard" hidden>
         <span class="announcement-badge" id="announcementBadge"></span>
         <p class="announcement-message" id="announcementMessage"></p>
         <p class="announcement-meta" id="announcementMeta"></p>
+
+        <section class="planning-card" id="planningCard" hidden>
+          <h3 id="planningTitle">Vous pensez venir&nbsp;?</h3>
+          <p id="planningText">Vous pouvez indiquer votre intention, sans engagement définitif.</p>
+          <div class="planning-actions">
+            <button class="button soft" id="planningPresenceButton" type="button">Je pense passer</button>
+            <button class="button soft" id="planningGameButton" type="button">J’apporterai un jeu</button>
+          </div>
+          <p class="planning-feedback" id="planningFeedback" hidden></p>
+        </section>
       </article>
 
-      <div class="status-card">
-        <div class="status-dot" aria-hidden="true"></div>
-        <div>
-          <p class="status-title" id="statusTitle">Aucun rendez-vous annoncé pour le moment</p>
-          <p class="status-text" id="statusText">
-            Les parties apparaissent souvent spontanément. Le futur compteur collectif permettra bientôt de signaler les joueurs présents.
-          </p>
+      <article class="today-card" id="todayCard" data-tone="quiet" aria-live="polite">
+        <div class="news-line">
+          <div class="status-dot" aria-hidden="true"></div>
+          <div>
+            <p class="status-title" id="statusTitle">Pas d’information en direct pour le moment.</p>
+            <p class="status-text" id="statusText">Des parties peuvent tout de même commencer spontanément au quai.</p>
+            <p class="freshness" id="freshness" hidden></p>
+          </div>
         </div>
-      </div>
 
-      <div class="presence-grid">
-        <button class="presence-button" id="presenceButton" type="button">
-          <span class="presence-icon">♙</span>
-          <span><strong>Je suis sur place</strong><small>Signaler sa présence</small></span>
-        </button>
-        <button class="presence-button" id="gameButton" type="button">
-          <span class="presence-icon">♟</span>
-          <span><strong>J’apporte un jeu</strong><small>Indiquer un échiquier disponible</small></span>
-        </button>
-      </div>
-      <p class="notice">Chaque signalement disparaît automatiquement au bout de deux heures.</p>
+        <p class="current-actions-label">Vous êtes au quai maintenant&nbsp;?</p>
+        <div class="presence-grid">
+          <button class="presence-button" id="presenceButton" type="button">
+            <span class="presence-icon">♙</span>
+            <span><strong>Je suis au quai</strong><small>Pour que d’autres puissent vous rejoindre</small></span>
+          </button>
+          <button class="presence-button" id="gameButton" type="button">
+            <span class="presence-icon">♟</span>
+            <span><strong>J’ai apporté un jeu</strong><small>Pour qu’une partie puisse commencer</small></span>
+          </button>
+        </div>
+
+        <section class="personal-card" id="personalCard" hidden>
+          <button class="button soft playing-control" id="playingButton" type="button">Une partie a commencé</button>
+          <p class="active-reminder">
+            Cette indication disparaîtra à l’heure choisie. Vous partez plus tôt&nbsp;?
+            Appuyez sur «&nbsp;Je pars&nbsp;». Cela évite à quelqu’un de venir en pensant vous trouver.
+          </p>
+        </section>
+
+        <section class="game-left-card" id="gameLeftCard" hidden>
+          <p id="gameLeftText"></p>
+          <div class="game-left-actions">
+            <button class="button soft" id="modifyGameTimeButton" type="button">Modifier l’heure</button>
+            <button class="button danger" id="removeLeftGameButton" type="button">Le jeu n’est plus au quai</button>
+          </div>
+        </section>
+      </article>
     </section>
-
     <section class="section section-alt" id="lieu">
       <div class="shell two-columns">
         <div>
@@ -299,20 +436,20 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
 
         <div class="info-panel">
           <div class="info-row">
-            <span>Heure agréable</span>
-            <strong>Souvent vers 17 h 30–18 h</strong>
+            <span>Quand passer</span>
+            <strong>Souvent à partir de 17 h 30, selon les jours et la météo</strong>
           </div>
           <div class="info-row">
             <span>Participation</span>
             <strong>Gratuite · Sans inscription</strong>
           </div>
           <div class="info-row">
-            <span>Niveau</span>
-            <strong>Débutant à confirmé</strong>
+            <span>Sur place</span>
+            <strong>Jouer, découvrir les échecs ou simplement regarder</strong>
           </div>
           <div class="info-row">
             <span>Matériel</span>
-            <strong>Quelques jeux sur place, le vôtre bienvenu</strong>
+            <strong>Pensez à apporter un jeu lorsque c’est possible</strong>
           </div>
         </div>
       </div>
@@ -331,13 +468,13 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
         </article>
         <article>
           <span>02</span>
-          <h3>Une place est libre</h3>
-          <p>Asseyez-vous face à quelqu’un. Il n’est pas nécessaire de connaître son niveau.</p>
+          <h3>Vous avez envie de jouer</h3>
+          <p>Une place se libère&nbsp;? Asseyez-vous. Vous pouvez aussi demander simplement qui souhaite faire une partie.</p>
         </article>
         <article>
           <span>03</span>
-          <h3>On joue</h3>
-          <p>Une partie, une revanche, une discussion — chacun reste libre de son temps.</p>
+          <h3>La partie commence</h3>
+          <p>Une partie, une revanche, une discussion… chacun reste libre de son temps.</p>
         </article>
       </div>
     </section>
@@ -351,8 +488,8 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
         </div>
         <div class="faq-list">
           <details>
-            <summary>Faut-il savoir jouer aux échecs&nbsp;?</summary>
-            <p>Non. Les débutants comme les joueurs confirmés sont les bienvenus. Vous pouvez regarder, poser des questions ou commencer directement une partie.</p>
+            <summary>Puis-je simplement regarder une partie&nbsp;?</summary>
+            <p>Bien sûr. Vous pouvez regarder, découvrir les échecs, poser une question ou vous installer pour jouer.</p>
           </details>
           <details>
             <summary>Faut-il s’inscrire&nbsp;?</summary>
@@ -360,11 +497,11 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
           </details>
           <details>
             <summary>Quand venir&nbsp;?</summary>
-            <p>Les parties apparaissent spontanément, surtout en fin d’après-midi. Le créneau est souvent agréable vers 17&nbsp;h&nbsp;30–18&nbsp;h, selon la saison et la météo. Le compteur indique les présences signalées.</p>
+            <p>Les parties commencent souvent en fin d’après-midi, selon les jours et la météo. Avant de partir, regardez «&nbsp;Aujourd’hui au quai&nbsp;»&nbsp;: vous verrez si un rendez-vous est proposé, si quelqu’un est déjà là et si un jeu est disponible.</p>
           </details>
           <details>
             <summary>Faut-il apporter un échiquier&nbsp;?</summary>
-            <p>Quelques jeux peuvent déjà être présents. Apporter le vôtre reste utile, surtout lorsque plusieurs personnes souhaitent jouer en même temps.</p>
+            <p>Ce n’est pas obligatoire, mais c’est toujours utile. La partie «&nbsp;Aujourd’hui au quai&nbsp;» indiquera si un jeu devrait être disponible et jusqu’à quelle heure environ.</p>
           </details>
         </div>
       </div>
@@ -401,6 +538,60 @@ dialog::backdrop { background: rgba(20,14,10,.52); backdrop-filter: blur(4px); }
       </div>
     </div>
   </footer>
+
+
+  <dialog class="time-dialog" id="timeDialog">
+    <div class="dialog-head">
+      <h3>Jusqu’à quelle heure pensez-vous rester&nbsp;?</h3>
+      <button class="dialog-close" type="button" data-close="timeDialog" aria-label="Fermer">×</button>
+    </div>
+    <p class="dialog-copy">Choisissez l’heure qui vous paraît la plus probable. Vous pourrez la modifier à tout moment.</p>
+    <div class="time-grid" id="timeChoices"></div>
+    <div class="custom-time">
+      <input id="customTime" type="time" aria-label="Choisir une autre heure">
+      <button class="button primary" id="customTimeButton" type="button">Valider</button>
+    </div>
+  </dialog>
+
+  <dialog class="time-dialog" id="leaveDialog">
+    <div class="dialog-head">
+      <h3>Vous repartez avec votre jeu&nbsp;?</h3>
+      <button class="dialog-close" type="button" data-close="leaveDialog" aria-label="Fermer">×</button>
+    </div>
+    <p class="dialog-copy">Cette question permet de garder une information juste pour les personnes qui souhaitent venir.</p>
+    <div class="dialog-actions">
+      <button class="primary" id="takeGameButton" type="button">Oui, je le reprends</button>
+      <button id="leaveGameButton" type="button">Non, je le laisse à quelqu’un qui reste</button>
+    </div>
+  </dialog>
+
+  <dialog class="time-dialog" id="guardianDialog">
+    <div class="dialog-head">
+      <h3>La personne qui garde votre jeu pense rester jusqu’à quelle heure environ&nbsp;?</h3>
+      <button class="dialog-close" type="button" data-close="guardianDialog" aria-label="Fermer">×</button>
+    </div>
+    <p class="dialog-copy">Le public verra seulement jusqu’à quelle heure le jeu devrait rester disponible.</p>
+    <div class="time-grid" id="guardianChoices"></div>
+    <div class="custom-time">
+      <input id="guardianCustomTime" type="time" aria-label="Choisir une autre heure">
+      <button class="button primary" id="guardianCustomButton" type="button">Valider</button>
+    </div>
+  </dialog>
+
+  <div class="sticky-presence" id="stickyPresence" hidden>
+    <div class="shell sticky-inner">
+      <div class="sticky-copy">
+        <strong id="stickyTitle">Vous êtes au quai.</strong>
+        <small id="stickyText"></small>
+      </div>
+      <div class="sticky-actions">
+        <button type="button" id="stickyModify">Modifier l’heure</button>
+        <button class="leave" type="button" id="stickyLeave">Je pars</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
 
   <dialog id="messageDialog">
     <button class="dialog-close" type="button" aria-label="Fermer">×</button>
