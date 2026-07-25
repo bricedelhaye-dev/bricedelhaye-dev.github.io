@@ -5,73 +5,245 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#2d2018">
-  <title>Administration — Le Quai joue</title>
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191310">
+  <title>Tableau de bord du Quai — Le Quai joue</title>
   <style>
-    :root { --ink:#2d2018; --paper:#f5efe7; --cream:#fffaf3; --copper:#a85f32; --river:#54756f; --muted:#766b63; --danger:#8b3a2f; --line:rgba(45,32,24,.16); --shadow:0 20px 55px rgba(45,32,24,.14); }
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;color:var(--ink);background:radial-gradient(circle at 88% 8%,rgba(168,95,50,.14),transparent 30%),var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
-    button,input,select,textarea{font:inherit} button{-webkit-tap-highlight-color:transparent}.shell{width:min(720px,calc(100% - 28px));margin:0 auto}header{padding:22px 0 12px}.brand{display:flex;align-items:center;justify-content:space-between;gap:18px}.brand-title{display:flex;align-items:center;gap:11px;font-weight:900}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;color:white;background:var(--ink);font-size:23px}.back{color:var(--ink);font-weight:800;text-decoration:none}main{padding:28px 0 70px}h1{margin:0 0 10px;font-size:clamp(2.25rem,9vw,4.2rem);line-height:.98;letter-spacing:-.045em}.intro{margin:0 0 28px;color:var(--muted);font-size:1.06rem}.panel{padding:24px;border:1px solid var(--line);border-radius:26px;background:rgba(255,250,243,.94);box-shadow:var(--shadow)}.panel+.panel{margin-top:18px}.panel h2{margin:0 0 8px;font-size:1.45rem}.panel p{margin-top:0}.button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}button,.button-link{min-height:50px;padding:0 20px;border:1px solid var(--ink);border-radius:999px;background:white;color:var(--ink);font-weight:850;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}button.primary{color:white;background:var(--ink)}button.danger{color:var(--danger);border-color:rgba(139,58,47,.5)}button:disabled{opacity:.48;cursor:wait}.account{margin:0 0 18px;color:var(--river);font-size:.92rem;font-weight:800}label{display:block;margin:18px 0 7px;font-weight:850}input,select,textarea{width:100%;padding:14px 15px;color:var(--ink);border:1px solid var(--line);border-radius:14px;background:white}textarea{min-height:128px;resize:vertical}.hint{margin:7px 0 0;color:var(--muted);font-size:.87rem}.feedback{margin:0 0 18px;padding:12px 14px;border-radius:14px;background:rgba(84,117,111,.12);color:var(--ink);font-weight:750}.feedback[data-kind="error"]{background:rgba(139,58,47,.12);color:var(--danger)}.feedback[data-kind="success"]{background:rgba(47,143,101,.14);color:#246e4f}.current-card{margin-bottom:20px;padding:18px;border-left:5px solid var(--copper);border-radius:16px;background:white}.current-card[data-type="maintained"]{border-left-color:var(--river)}.current-card[data-type="info"]{border-left-color:var(--danger)}.current-badge{display:block;margin-bottom:5px;color:var(--copper);font-size:.75rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.current-message{margin:0 0 5px;font-weight:850;font-size:1.08rem}.current-meta,.responses{margin:0;color:var(--muted);font-size:.85rem}.responses{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-weight:800;color:var(--river)}.warning{padding:14px;border-radius:14px;background:rgba(139,58,47,.10)}[hidden]{display:none!important}@media(max-width:520px){.panel{padding:20px;border-radius:22px}.button-row button,.button-row .button-link{width:100%}}
-  </style>
+    :root { --ink:#2d2018; --paper:#f5efe7; --cream:#fffaf3; --copper:#a85f32; --river:#54756f; --muted:#766b63; --danger:#8b3a2f; --ok:#246e4f; --line:rgba(45,32,24,.16); --shadow:0 20px 55px rgba(45,32,24,.14);
+  color-scheme: light dark;
+  --veil-96: rgba(255,250,243,.96);
+  --tint-river-12: rgba(84,117,111,.12);
+  --tint-river-16: rgba(84,117,111,.16);
+  --green-halo: rgba(47,143,101,.14);
+  --copper-halo: rgba(168,95,50,.14);
+  --danger-t12: rgba(139,58,47,.12);
+  --danger-t10: rgba(139,58,47,.10);
+  --danger-t06: rgba(139,58,47,.06);
+  --ok-t06: rgba(36,110,79,.06);
+  --danger-b50: rgba(139,58,47,.5);
+  --ok-b50: rgba(36,110,79,.5);
+  --surface: white;
+}
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); background:radial-gradient(circle at 88% 8%,var(--copper-halo),transparent 30%),var(--paper); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.55; }
+    button,input,select,textarea { font:inherit; } button { -webkit-tap-highlight-color:transparent; cursor:pointer; }
+    :focus-visible { outline:3px solid var(--river); outline-offset:2px; }
+    .shell { width:min(760px,calc(100% - 28px)); margin:0 auto; }
+    header { padding:22px 0 12px; }
+    .brand { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .brand-title { display:flex; align-items:center; gap:11px; font-weight:900; }
+    .brand-mark { display:grid; place-items:center; width:42px; height:42px; border-radius:50%; color:var(--surface); background:var(--ink); font-size:23px; }
+    .back { color:var(--ink); font-weight:800; text-decoration:none; }
+    main { padding:22px 0 80px; }
+    h1 { margin:0 0 10px; font-size:clamp(2rem,7vw,3.2rem); line-height:1; letter-spacing:-.04em; }
+    .intro { margin:0 0 24px; color:var(--muted); font-size:1.02rem; }
+    .panel { padding:22px; border:1px solid var(--line); border-radius:24px; background:var(--veil-96); box-shadow:var(--shadow); }
+    .panel + .panel { margin-top:16px; }
+    .panel h2 { margin:0 0 6px; font-size:1.3rem; }
+    .panel h2 + p { margin-top:0; color:var(--muted); }
+    .account { margin:0 0 16px; color:var(--river); font-size:.92rem; font-weight:800; }
+    .button-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    button.action, .button-link { min-height:50px; padding:0 20px; border:1px solid var(--ink); border-radius:999px; background:var(--surface); color:var(--ink); font-weight:850; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; }
+    button.action.primary { color:var(--surface); background:var(--ink); }
+    button.action.danger { color:var(--danger); border-color:var(--danger-b50); }
+    button.action.ok { color:var(--ok); border-color:var(--ok-b50); }
+    button:disabled { opacity:.5; cursor:wait; }
+    label { display:block; margin:16px 0 7px; font-weight:850; }
+    input,select,textarea { width:100%; padding:13px 14px; color:var(--ink); border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+    textarea { min-height:110px; resize:vertical; }
+    .hint { margin:7px 0 0; color:var(--muted); font-size:.85rem; }
+    .feedback { margin:0 0 16px; padding:12px 14px; border-radius:14px; background:var(--tint-river-12); color:var(--ink); font-weight:750; }
+    .feedback[data-kind="error"] { background:var(--danger-t12); color:var(--danger); }
+    .feedback[data-kind="success"] { background:var(--green-halo); color:var(--ok); }
+    .alert { margin:0 0 10px; padding:13px 15px; border-left:5px solid var(--copper); border-radius:0 14px 14px 0; background:var(--surface); font-weight:750; }
+    .alert:last-child { margin-bottom:0; }
+    .alert.warn { border-left-color:var(--danger); background:var(--danger-t06); }
+    .alert.good { border-left-color:var(--ok); background:var(--ok-t06); }
+    .alert.calm { border-left-color:var(--river); }
+    .summary-line { margin:0 0 6px; }
+    .muted { color:var(--muted); }
+    .state-badge { display:inline-block; padding:3px 10px; border-radius:999px; font-size:.8rem; font-weight:850; background:var(--tint-river-16); color:var(--river); }
+    .list-item { padding:12px 0; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .list-item:last-child { border-bottom:0; }
+    .list-item .text { font-weight:750; }
+    .idea-text { margin:0; white-space:pre-wrap; }
+    .warning { padding:14px; border-radius:14px; background:var(--danger-t10); }
+    [hidden] { display:none!important; }
+    @media (max-width:520px) { .panel { padding:18px; border-radius:20px; } .button-row button, .button-row .button-link { width:100%; } }
+  
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #efe6da;
+    --paper: #191310;
+    --cream: #221a14;
+    --copper: #d98f5f;
+    --river: #9cc0b8;
+    --muted: #b4a798;
+    --danger: #e59486;
+    --ok: #63bb90;
+    --line: rgba(239,230,218,.18);
+    --shadow: 0 18px 44px rgba(0,0,0,.5);
+    --veil-96: rgba(25,19,16,.94);
+    --tint-river-12: rgba(156,192,184,.14);
+    --tint-river-16: rgba(156,192,184,.18);
+    --green-halo: rgba(87,181,138,.20);
+    --copper-halo: rgba(217,143,95,.10);
+    --danger-t12: rgba(229,148,134,.16);
+    --danger-t10: rgba(229,148,134,.14);
+    --danger-t06: rgba(229,148,134,.10);
+    --ok-t06: rgba(99,187,144,.10);
+    --danger-b50: rgba(229,148,134,.6);
+    --ok-b50: rgba(99,187,144,.6);
+    --surface: #2b221b;
+  }
+}
+</style>
 </head>
 <body>
-  <header class="shell"><div class="brand"><div class="brand-title"><span class="brand-mark">♟</span><span>Le Quai joue</span></div><a class="back" href="index.html">Voir le site</a></div></header>
+  <header class="shell">
+    <div class="brand">
+      <div class="brand-title"><span class="brand-mark">♟</span><span>Le Quai joue</span></div>
+      <a class="back" href="index.html">Voir le site</a>
+    </div>
+  </header>
+
   <main class="shell">
-    <h1>Administration</h1>
-    <p class="intro">Proposer un rendez-vous, confirmer qu’il tient toujours ou publier une information utile.</p>
-    <p class="feedback" id="feedback" aria-live="polite"></p>
+    <h1>Tableau de bord du Quai</h1>
+    <p class="intro">Les informations utiles pour faire vivre le quai, sans détour.</p>
+    <p class="feedback" id="feedback" aria-live="polite" hidden></p>
 
     <section class="panel" id="loginPanel">
       <h2>Connexion privée</h2>
-      <p>Utilisez le compte Google autorisé pour accéder aux annonces.</p>
-      <div class="button-row"><button class="primary" id="loginButton" type="button">Se connecter avec Google</button></div>
+      <p>Utilisez le compte Google autorisé pour accéder au tableau de bord.</p>
+      <div class="button-row"><button class="action primary" id="loginButton" type="button">Se connecter avec Google</button></div>
     </section>
 
     <section class="panel" id="unauthorizedPanel" hidden>
       <h2>Compte non autorisé</h2>
-      <p class="warning">Le compte <strong id="unauthorizedEmail"></strong> ne peut pas publier d’annonce.</p>
-      <div class="button-row"><button id="unauthorizedLogoutButton" type="button">Changer de compte</button></div>
+      <p class="warning">Le compte <strong id="unauthorizedEmail"></strong> ne peut pas accéder au tableau de bord.</p>
+      <div class="button-row"><button class="action" id="unauthorizedLogoutButton" type="button">Changer de compte</button></div>
     </section>
 
-    <section class="panel" id="adminPanel" hidden>
+    <div id="dashboardPanel" hidden>
       <p class="account" id="accountText"></p>
-      <article class="current-card" id="currentCard" hidden>
-        <span class="current-badge" id="currentBadge"></span>
-        <p class="current-message" id="currentMessage"></p>
-        <p class="current-meta" id="currentMeta"></p>
-        <p class="responses" id="responses" hidden></p>
-      </article>
 
-      <form id="announcementForm">
-        <label for="announcementType">Type d’information</label>
-        <select id="announcementType" required>
-          <option value="planned">Proposer une rencontre</option>
-          <option value="maintained">Confirmer que le rendez-vous tient toujours</option>
-          <option value="info">Publier une information importante</option>
+      <section class="panel">
+        <h2>À regarder maintenant</h2>
+        <div id="alertsList"><p class="muted" id="alertsEmpty">Rien de particulier à signaler pour le moment.</p></div>
+      </section>
+
+      <section class="panel">
+        <h2>Au quai en ce moment</h2>
+        <p class="summary-line" id="presenceSummary">Personne n’a annoncé être au quai.</p>
+        <p class="summary-line muted" id="searchSummary" hidden></p>
+        <p class="summary-line muted" id="needSummary" hidden></p>
+      </section>
+
+      <section class="panel">
+        <h2>Venues prévues</h2>
+        <p class="summary-line" id="planningTodaySummary">Aujourd’hui : aucune venue annoncée.</p>
+        <p class="summary-line muted" id="planningRdvSummary" hidden></p>
+        <div id="queriesBlock" hidden>
+          <h2 style="margin-top:16px;font-size:1.05rem">Demandes sur votre présence</h2>
+          <p class="hint">Répondez avec les boutons « Votre venue et les jeux ». Les demandes disparaissent après votre réponse, leur retrait ou leur expiration.</p>
+          <div id="queriesList"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Votre venue et les jeux</h2>
+        <p>Choisissez le moment auquel vous répondez.</p>
+        <label for="briceContext">Pour quel moment répondez-vous&nbsp;?</label>
+        <select id="briceContext"><option value="today">Aujourd’hui</option></select>
+        <p class="summary-line"><span class="state-badge" id="briceState">Aucune réponse</span></p>
+        <label for="briceGames">Jeux que vous pensez apporter</label>
+        <select id="briceGames">
+          <option value="unknown" selected>Je ne sais pas encore</option>
+          <option value="0">Aucun jeu</option>
+          <option value="1">Un jeu</option>
+          <option value="2">Deux jeux</option>
+          <option value="3">Trois jeux</option>
+          <option value="4">Quatre jeux</option>
+          <option value="5">Cinq jeux</option>
         </select>
-
-        <div id="eventFields">
-          <label for="eventAt">Date et heure du rendez-vous</label>
-          <input id="eventAt" type="datetime-local">
-          <p class="hint">La même date permet de conserver les réponses lorsque le rendez-vous est confirmé.</p>
-        </div>
-
-        <label for="announcementMessage">Message affiché</label>
-        <textarea id="announcementMessage" maxlength="180" required placeholder="Exemple : Des parties sont proposées dimanche vers 18 h sur les galets."></textarea>
-        <p class="hint">180 caractères maximum. Écrivez directement l’information utile.</p>
-
-        <div id="infoDurationField" hidden>
-          <label for="announcementDuration">Durée d’affichage</label>
-          <select id="announcementDuration">
-            <option value="2">2 heures</option><option value="6">6 heures</option><option value="12" selected>12 heures</option><option value="24">24 heures</option>
-          </select>
-        </div>
-
+        <label for="briceGamesKept">Si vous ne venez pas et si des jeux sont prévus, seront-ils quand même apportés&nbsp;?</label>
+        <select id="briceGamesKept">
+          <option value="unknown" selected>Je ne sais pas encore</option>
+          <option value="yes">Oui, quelqu’un les apportera</option>
+          <option value="no">Non, ils ne seront pas apportés</option>
+        </select>
         <div class="button-row">
-          <button class="primary" id="publishButton" type="submit">Publier</button>
-          <button class="danger" id="removeButton" type="button" disabled>Retirer l’information</button>
-          <button id="logoutButton" type="button">Se déconnecter</button>
+          <button class="action ok" id="briceYes" type="button">Je pense être là</button>
+          <button class="action danger" id="briceNo" type="button">Je ne pourrai pas venir</button>
+          <button class="action" id="briceUnsure" type="button">Je ne sais pas encore</button>
         </div>
-      </form>
-    </section>
+        <p class="hint" id="briceHint">Votre réponse apparaîtra au bon endroit sur le site.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Rendez-vous et information</h2>
+        <article class="alert calm" id="currentRendezvous" hidden>
+          <p class="summary-line" id="currentRdvMessage"></p>
+          <p class="summary-line muted" id="currentRdvMeta"></p>
+        </article>
+        <form id="announcementForm">
+          <label for="announcementType">Que voulez-vous faire&nbsp;?</label>
+          <select id="announcementType">
+            <option value="proposed">Proposer un rendez-vous</option>
+            <option value="maintained">Confirmer que le rendez-vous tient toujours</option>
+            <option value="info">Publier une information</option>
+            <option value="cancelled">Annoncer que le rendez-vous est annulé</option>
+          </select>
+
+          <div id="eventFields">
+            <label for="eventAt">Date et heure du rendez-vous</label>
+            <input id="eventAt" type="datetime-local">
+            <p class="hint">Conservez cette date si des personnes ont déjà annoncé leur venue.</p>
+            <label for="repeatWeekly" style="display:flex;align-items:center;gap:10px;font-weight:850">
+              <input id="repeatWeekly" type="checkbox" style="width:auto;min-width:22px;min-height:22px">
+              Ce rendez-vous se répète chaque semaine
+            </label>
+            <p class="hint">Le site affichera automatiquement la prochaine occurrence, à la même heure.</p>
+          </div>
+
+          <label for="announcementMessage">Message affiché sur le site</label>
+          <textarea id="announcementMessage" maxlength="240" placeholder="Exemple : Des parties sont proposées dimanche vers 18 h sur les galets."></textarea>
+          <p class="hint">240 caractères maximum. Écrivez directement l’information utile.</p>
+
+          <label for="announcementWeather">Météo (facultatif, une phrase courte)</label>
+          <input id="announcementWeather" maxlength="160" placeholder="Exemple : ☀️ Le temps devrait être agréable vers 18 h.">
+          <p class="hint">Laissez vide si ce n’est pas utile. La météo disparaît avec le rendez-vous.</p>
+
+          <div id="infoDurationField" hidden>
+            <label for="announcementDuration">Durée d’affichage</label>
+            <select id="announcementDuration">
+              <option value="2">2 heures</option><option value="6">6 heures</option><option value="12" selected>12 heures</option><option value="24">24 heures</option>
+            </select>
+          </div>
+
+          <div id="cancelScopeField" hidden>
+            <label for="cancelScope">Pour un rendez-vous hebdomadaire</label>
+            <select id="cancelScope">
+              <option value="next">Annuler seulement la prochaine occurrence</option>
+              <option value="series">Arrêter toute la série hebdomadaire</option>
+            </select>
+          </div>
+
+          <div class="button-row">
+            <button class="action primary" id="publishButton" type="submit">Publier sur le site</button>
+            <button class="action danger" id="removeButton" type="button" disabled>Retirer du site</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>Messages reçus</h2>
+        <div id="ideasList"><p class="muted" id="ideasEmpty">Aucun message reçu pour le moment.</p></div>
+      </section>
+
+      <section class="panel">
+        <div class="button-row"><button class="action" id="logoutButton" type="button">Se déconnecter</button></div>
+      </section>
+    </div>
   </main>
   <script type="module" src="admin.js"></script>
 </body>
