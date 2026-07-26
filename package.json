@@ -1,0 +1,17 @@
+{
+  "name": "le-quai-joue-quality-gates",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Contrôles techniques du site statique Le Quai joue",
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "check": "pnpm run check:html && pnpm run check:javascript && pnpm run check:links && pnpm test",
+    "check:html": "html-validate \"*.html\"",
+    "check:javascript": "node scripts/check-javascript.mjs",
+    "check:links": "node scripts/check-internal-links.mjs",
+    "test": "node scripts/run-existing-tests.mjs"
+  },
+  "devDependencies": {
+    "html-validate": "11.5.6"
+  }
+}

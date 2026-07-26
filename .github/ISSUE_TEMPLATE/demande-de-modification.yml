@@ -1,0 +1,12 @@
+name: Demande de modification
+description: Décrire simplement ce qui doit changer sur Le Quai joue
+title: "[Modification] "
+body:
+  - type: textarea
+    id: modifications
+    attributes:
+      label: Modifications souhaitées
+      description: Écrivez uniquement les changements que vous souhaitez obtenir.
+      placeholder: "Exemple : remplacer le texte… par…"
+    validations:
+      required: true
