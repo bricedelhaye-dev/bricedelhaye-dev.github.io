@@ -5,44 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,follow">
   <meta name="theme-color" content="#2d2018">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191310">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>Confidentialité — Le Quai joue</title>
   <style>
-    :root { --ink:#2d2018; --paper:#f5efe7; --cream:#fffaf3; --copper:#a85f32; --muted:#766b63; --line:rgba(45,32,24,.14);
-  color-scheme: light dark;
-  --ink-2: #554941;
-  --surface: white;
-}
+    :root { --ink:#2d2018; --paper:#f5efe7; --cream:#fffaf3; --copper:#a85f32; --muted:#766b63; --line:rgba(45,32,24,.14); }
     * { box-sizing:border-box; }
     body { margin:0; color:var(--ink); background:var(--paper); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.65; }
     .shell { width:min(780px,calc(100% - 32px)); margin:0 auto; }
     header { padding:28px 0; }
     .brand { display:inline-flex; align-items:center; gap:10px; color:inherit; text-decoration:none; font-weight:850; }
-    .mark { display:grid; place-items:center; width:38px; height:38px; border-radius:50%; color:var(--surface); background:var(--ink); font-size:22px; }
+    .mark { display:grid; place-items:center; width:38px; height:38px; border-radius:50%; color:white; background:var(--ink); font-size:22px; }
     main { padding:46px 0 90px; }
     article { padding:clamp(24px,5vw,52px); background:var(--cream); border:1px solid var(--line); border-radius:28px; }
     h1 { margin:0 0 12px; font-size:clamp(2.4rem,7vw,4.4rem); line-height:1; letter-spacing:-.045em; }
     h2 { margin:34px 0 8px; font-size:1.35rem; }
-    p, li { color:var(--ink-2); }
+    p, li { color:#554941; }
     .intro { font-size:1.12rem; }
-    .note { padding:16px 18px; border-left:4px solid var(--copper); background:var(--surface); border-radius:0 14px 14px 0; }
+    .note { padding:16px 18px; border-left:4px solid var(--copper); background:white; border-radius:0 14px 14px 0; }
     a { color:inherit; text-underline-offset:3px; }
-    :focus-visible { outline:3px solid var(--copper); outline-offset:2px; }
-  
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #efe6da;
-    --paper: #191310;
-    --cream: #221a14;
-    --copper: #d98f5f;
-    --muted: #b4a798;
-    --line: rgba(239,230,218,.18);
-    --ink-2: #cabdaf;
-    --surface: #2b221b;
-  }
-}
-</style>
+  </style>
 </head>
 <body>
   <header class="shell">
@@ -51,34 +32,23 @@
   <main class="shell">
     <article>
       <h1>Confidentialité</h1>
-      <p class="intro">Le site demande très peu d’informations. Vous pouvez venir et l’utiliser sans donner votre nom. Un prénom n’est proposé que si vous choisissez de contacter Brice, et il n’est jamais affiché publiquement.</p>
+      <p class="intro">Le site est conçu pour fonctionner avec le moins de données personnelles possible.</p>
 
-      <h2>Lorsque vous annoncez une présence ou une venue</h2>
-      <p>Firebase attribue à votre navigateur un identifiant technique anonyme. La venue contient seulement les éléments que vous avez choisis&nbsp;: l’heure approximative, le fait de venir seul, à deux ou en groupe, le nombre approximatif du groupe si vous le précisez et ce que vous savez des jeux prévus. Elle ne contient ni adresse e-mail, ni numéro de téléphone.</p>
-      <p>Une présence contient le nombre de personnes réellement arrivées, l’heure de départ approximative et le fait d’avoir ou non au moins un jeu. Elle disparaît à l’heure choisie ou lorsque vous appuyez sur le bouton de départ. Une venue prévue disparaît au plus tard deux heures après l’heure annoncée, sans dépasser la fin de la journée ou du rendez-vous. Vous pouvez aussi la retirer vous-même.</p>
-      <p>Tant que l’information reste active, vous pouvez corriger l’heure, les personnes ou le jeu depuis le navigateur qui l’a créée. Le site ne demande pas de compte public et ne peut donc pas reconnaître cette annonce sur un autre appareil.</p>
-      <p>Une information inconnue reste inconnue&nbsp;: le site n’invente ni effectif, ni nombre de jeux. Il ne peut pas garantir qu’un jeu annoncé sera encore libre au moment de votre arrivée.</p>
+      <h2>Présence, jeu et rendez-vous</h2>
+      <p>Lorsque vous indiquez que vous êtes au quai, que vous avez apporté un jeu ou que vous pensez venir à un rendez-vous, Firebase attribue au navigateur un identifiant technique anonyme. Ces informations ne contiennent ni nom, ni adresse e-mail, ni numéro de téléphone.</p>
+      <p>Vous choisissez une heure approximative de départ. L’information disparaît automatiquement à cette heure ou lorsque vous appuyez sur «&nbsp;Je pars&nbsp;». Si un jeu reste à quelqu’un après votre départ, seule son heure approximative de disponibilité est affichée.</p>
+      <p>Les réponses concernant un futur rendez-vous servent à préparer la rencontre. Aucun nombre de participants n’est affiché publiquement.</p>
 
-      <h2>Prénom facultatif</h2>
-      <p>Un prénom est demandé uniquement si vous choisissez de demander à Brice s’il pense être là. Il reste privé et n’apparaît jamais sur la page publique. Il est conservé temporairement avec la demande pour que Brice puisse la reconnaître, puis supprimé lorsque la demande est retirée, traitée ou expirée.</p>
-      <p>Le prénom peut aussi rester mémorisé dans votre navigateur afin de vous être proposé une prochaine fois. Vous pouvez l’effacer en supprimant les données de ce site dans votre navigateur.</p>
+      <h2>Connexion d’administration</h2>
+      <p>La page d’administration utilise une connexion Google réservée à l’organisateur. Cette connexion sert uniquement à proposer un rendez-vous, le confirmer ou publier une information visible dans la rubrique «&nbsp;Aujourd’hui au quai&nbsp;».</p>
 
-      <h2>Messages privés</h2>
-      <p>Le formulaire «&nbsp;Une idée, une question ou quelque chose à signaler&nbsp;?&nbsp;» envoie un message privé à Brice. Ce message n’est jamais publié. Vous pouvez également l’utiliser pour poser une question sur les informations conservées par le site.</p>
+      <h2>Mesure d’audience et publicité</h2>
+      <p>Le site n’utilise actuellement ni publicité, ni outil de profilage, ni solution de mesure d’audience ajoutée par le projet.</p>
 
-      <h2>Météo</h2>
-      <p>Pour afficher une courte indication météo, le site interroge <a href="https://open-meteo.com" rel="noopener">Open-Meteo</a> avec les coordonnées fixes du quai des Bateliers. Il ne transmet ni votre position, ni votre identifiant. Comme pour toute requête Internet, Open-Meteo peut voir l’adresse IP utilisée pour la connexion. Si le service ne répond pas, la météo reste simplement masquée.</p>
+      <h2>Services techniques</h2>
+      <p>Le site est hébergé par GitHub Pages. Le compteur et les annonces utilisent Firebase, un service de Google. Ces prestataires peuvent traiter des informations techniques nécessaires au fonctionnement et à la sécurité de leurs services, par exemple l’adresse IP ou les journaux de connexion.</p>
 
-      <h2>Notifications à Brice</h2>
-      <p>Certaines actions peuvent envoyer une notification privée à Brice&nbsp;: venue prévue, arrivée au quai, recherche d’un partenaire, besoin d’un jeu, demande sur sa présence ou message privé. La notification reprend uniquement les renseignements utiles que vous venez de donner.</p>
-
-      <h2>Administration et services techniques</h2>
-      <p>Le tableau de bord est réservé à Brice par une connexion Google. Le site est hébergé par GitHub Pages. Les indications du moment utilisent Firebase. Les notifications passent par Cloudflare puis Pushover. Ces services peuvent conserver les données techniques nécessaires à leur fonctionnement et à leur sécurité, comme l’adresse IP ou des journaux de connexion.</p>
-
-      <h2>Publicité et mesure d’audience</h2>
-      <p>Le projet n’ajoute ni publicité, ni profilage, ni outil de mesure d’audience.</p>
-
-      <p class="note">Cette page décrit le fonctionnement actuel du site. Elle sera mise à jour si celui-ci évolue.</p>
+      <p class="note">Cette page décrit le fonctionnement actuel du site. Elle sera mise à jour si de nouveaux outils sont ajoutés.</p>
       <p><a href="index.html">← Retour au site</a></p>
     </article>
   </main>
