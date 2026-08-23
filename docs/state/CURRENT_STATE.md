@@ -1,15 +1,23 @@
 # État courant — Le Quai joue
-Date : 2026-08-23
-Statut : STOP AVANT AUDIT
+Date : 2026-08-24
+Statut : AUDIT TOTAL AUTORISÉ MAIS NON ENCORE LANCÉ
 
 ## Phase
-PRÉ-AUDIT — gouvernance persistante à installer.
+PRÉ-AUDIT — gouvernance persistante validée.
+
+## Gouvernance
+- G3 : VALIDÉE ;
+- G4 : VALIDÉE.
 
 ## Prochaine action autorisée
-Migration documentaire de gouvernance sur branche isolée.
+Lancement de l'audit total sur instruction explicite.
+
+## Validation
+Contrôle externe déclaré conforme par Brice le 2026-08-24.
+Référence : PR #4, commit `9bdde8720d21b257e771493f21f94369c0dfaff9`.
 
 ## Actions interdites
-- lancer l'audit total ;
+- lancer l'audit total dans la présente opération ;
 - modifier le site ;
 - lancer une exploration Figma ;
 - lancer une refonte Codex ;

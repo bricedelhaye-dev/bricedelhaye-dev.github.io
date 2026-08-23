@@ -1,16 +1,16 @@
 # Portes actuelles
-Date : 2026-08-23
+Date : 2026-08-24
 
 ## Gouvernance
 - G0 Plan total : VALIDÉ
 - G1 Registre angles morts : VALIDÉ
 - G2 Méthodes unifiées : VALIDÉ
-- G3 Gouvernance persistante GitHub : À INSTALLER VIA CODEX
-- G4 Preuve permissions + retour Codex : FERMÉE
+- G3 Gouvernance persistante GitHub : VALIDÉE
+- G4 Preuve permissions + retour Codex : VALIDÉE
 
 ## Projet
-- AUDIT TOTAL : FERMÉ PAR DEMANDE EXPLICITE
-- P0–P10 : NE PAS RÉÉVALUER AVANT L'AUDIT
+- AUDIT TOTAL : AUTORISÉ MAIS NON ENCORE LANCÉ
+- P0–P10 : NE PAS RÉÉVALUER AVANT LE LANCEMENT DE L'AUDIT
 
 ## Interdit
 - nouvelle exploration Figma ;
@@ -20,6 +20,6 @@ Date : 2026-08-23
 - reclassification des actifs historiques.
 
 ## Autorisé
-- migration documentaire de gouvernance uniquement ;
+- lancement futur de l'audit total sur instruction explicite ;
 - vérification de permissions et de diff ;
 - tests prouvant qu'aucun fichier fonctionnel du site n'a changé.
