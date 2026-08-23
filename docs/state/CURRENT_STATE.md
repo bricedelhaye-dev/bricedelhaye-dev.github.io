@@ -13,7 +13,7 @@ PRÉ-AUDIT — gouvernance persistante validée.
 Lancement de l'audit total sur instruction explicite.
 
 ## Validation
-Contrôle externe déclaré conforme par Brice le 2026-08-24.
+Contrôle externe effectué par ChatGPT le 2026-08-24.
 Référence : PR #4, commit `9bdde8720d21b257e771493f21f94369c0dfaff9`.
 
 ## Actions interdites
